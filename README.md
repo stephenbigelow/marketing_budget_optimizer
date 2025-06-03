@@ -1,8 +1,19 @@
 # Marketing Budget Optimizer
 
-A Python package for optimizing marketing budgets using response curves.
+A Python package for optimizing marketing budgets using known response curves.
 
 ## Installation
+
+### Prerequisites
+Before installing this package, you must have:
+1. Python 3.7 or higher
+2. pip (Python's package installer)
+3. setuptools (required for package installation)
+
+Install setuptools first:
+```bash
+pip install setuptools
+```
 
 ### Option 1: Install from source
 1. Clone the repository:
