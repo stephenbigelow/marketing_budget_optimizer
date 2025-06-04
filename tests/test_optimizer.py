@@ -19,15 +19,20 @@ def print_results(result, title):
 
 # Create example response curves for different channels
 curves = [
-    GompertzCurve(a=100, b=5, c=0.5),    # Channel 1: High asymptote, moderate growth
-    GompertzCurve(a=80, b=4, c=0.6),     # Channel 2: Lower asymptote, slower growth
-    GompertzCurve(a=120, b=6, c=0.4),    # Channel 3: Highest asymptote, fastest growth
+    GompertzCurve(a=1000000, b=2, c=0.00005),    
+    GompertzCurve(a=8000000, b=4, c=0.00002),    
+    GompertzCurve(a=1200000, b=3, c=0.00007),    
+    GompertzCurve(a=2500000, b=2.5, c=0.00004),  # Medium ceiling, moderate growth
+    GompertzCurve(a=5000000, b=3.5, c=0.00003),  # High ceiling, steeper growth
+    GompertzCurve(a=900000, b=2.8, c=0.00006),   # Lower ceiling, faster saturation
+    GompertzCurve(a=3000000, b=3.2, c=0.00004),  # Medium-high ceiling, balanced growth
+    GompertzCurve(a=1500000, b=2.2, c=0.00008)   # Medium-low ceiling, rapid saturation
 ]
 
 # Define channel-specific budget constraints
-min_budgets = [50, 100, 200]    # Minimum required budget for each channel
-max_budgets = [200, 300, 800]   # Maximum allowed budget for each channel
-total_budget = 1000
+min_budgets = [10000, 80000, 12000, 25000, 50000, 9000, 30000, 15000]    # Minimum required budget for each channel
+max_budgets = [200000, 1000000, 240000, 500000, 800000, 180000, 600000, 300000]   # Maximum allowed budget for each channel
+total_budget = 2500000
 
 print("Channel Budget Constraints:")
 print("-" * 40)
