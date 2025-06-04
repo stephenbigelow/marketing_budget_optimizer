@@ -43,28 +43,60 @@ pip install git+https://github.com/yourusername/marketing_budget_optimizer.git
 This example demonstrates how to optimize a $10M marketing budget across multiple channels using realistic response curves:
 
 ```python
-from marketing_budget_optimizer import GeneticAlgorithmOptimizer, GompertzCurve
+from marketing_budget_optimizer import GeneticAlgorithmOptimizer, HillCurve
 import numpy as np
 
 # Define marketing channels with realistic response curves
 # Each curve represents a different channel's revenue response to marketing spend
 channels = [
-    # Channel 1: Paid Search (High ceiling, moderate growth)
-    GompertzCurve(a=50_000_000, b=2.5, c=0.00002),  # $50M max revenue
+    # Channel 1: Quick initial growth, early inflection
+    HillCurve(V=12_000_000, K=500_000, n=2.5),  # Lower K for earlier inflection
     
-    # Channel 2: Social Media (Medium ceiling, faster growth)
-    GompertzCurve(a=30_000_000, b=3.0, c=0.00003),  # $30M max revenue
+    # Channel 2: Very slow initial growth, very late inflection
+    HillCurve(V=15_000_000, K=1_500_000, n=3.0),  # Higher K for later inflection
     
-    # Channel 3: Display Ads (Lower ceiling, rapid saturation)
-    GompertzCurve(a=20_000_000, b=3.5, c=0.00004),  # $20M max revenue
+    # Channel 3: Moderate growth, mid-range inflection
+    HillCurve(V=13_000_000, K=800_000, n=2.8),
     
-    # Channel 4: Video Marketing (High ceiling, slow growth)
-    GompertzCurve(a=40_000_000, b=2.0, c=0.00001),  # $40M max revenue
+    # Channel 4: Very quick initial growth, very early inflection
+    HillCurve(V=11_000_000, K=300_000, n=2.2),  # Very low K for very early inflection
+    
+    # Channel 5: Extremely slow initial growth, extremely late inflection
+    HillCurve(V=16_000_000, K=2_000_000, n=3.2),  # Very high K for very late inflection
+    
+    # Channel 6: Quick growth, mid-early inflection
+    HillCurve(V=12_500_000, K=600_000, n=2.6),
+    
+    # Channel 7: Slow growth, mid-late inflection
+    HillCurve(V=14_000_000, K=1_200_000, n=2.9),
+    
+    # Channel 8: Moderate growth, late inflection
+    HillCurve(V=13_500_000, K=1_000_000, n=2.7)
 ]
 
 # Define budget constraints for each channel
-min_budgets = [500_000, 300_000, 200_000, 400_000]  # Minimum required spend
-max_budgets = [4_000_000, 3_000_000, 2_000_000, 3_000_000]  # Maximum allowed spend
+min_budgets = [
+    300_000,  # Channel 1: Lower minimum for quick-return channel
+    0,        # Channel 2: No minimum
+    0,        # Channel 3: No minimum
+    200_000,  # Channel 4: Very low minimum for very quick-return channel
+    0,        # Channel 5: No minimum
+    0,        # Channel 6: No minimum
+    600_000,  # Channel 7: Higher minimum for quick-return channel
+    0         # Channel 8: No minimum
+]
+
+max_budgets = [
+    1_500_000,  # Channel 1: Lower maximum for quick-return channel
+    float('inf'),  # Channel 2: No maximum
+    float('inf'),  # Channel 3: No maximum
+    1_200_000,  # Channel 4: Very low maximum for very quick-return channel
+    float('inf'),  # Channel 5: No maximum
+    float('inf'),  # Channel 6: No maximum
+    2_200_000,  # Channel 7: Higher maximum for quick-return channel
+    float('inf')   # Channel 8: No maximum
+]
+
 total_budget = 10_000_000  # $10M total budget
 
 # Initialize the optimizer with custom parameters
@@ -107,13 +139,13 @@ print(f"Population Diversity: {metrics['population_diversity']:.2f}")
 ```
 
 This example demonstrates:
-1. Setting up realistic response curves for different marketing channels
-2. Defining budget constraints for each channel
+1. Setting up response curves for different marketing channels using Hill curves
+2. Defining budget constraints for each channel (some with no constraints)
 3. Configuring the genetic algorithm optimizer
 4. Running the optimization and analyzing results
 5. Tracking convergence metrics
 
 The optimizer will find the optimal budget allocation that maximizes total revenue while respecting:
-- Minimum and maximum budget constraints for each channel
+- Minimum and maximum budget constraints for each channel (where specified)
 - Total budget constraint
-- Diminishing returns of marketing spend (modeled by Gompertz curves)
+- Diminishing returns of marketing spend (modeled by Hill curves)
