@@ -2,7 +2,7 @@
 Marketing Budget Optimizer package.
 """
 
-from .curves import ResponseCurve, GompertzCurve
-from .optimize import BudgetOptimizer
+from .curves import ResponseCurve, HillCurve
+from .optimize import GeneticAlgorithmOptimizer
 
-__all__ = ['ResponseCurve', 'GompertzCurve', 'BudgetOptimizer'] 
+__all__ = ['ResponseCurve', 'HillCurve', 'GeneticAlgorithmOptimizer'] 

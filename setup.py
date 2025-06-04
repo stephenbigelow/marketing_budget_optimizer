@@ -1,12 +1,14 @@
 # setuptools helps with creating distribution files, package discovery, dependency installation, and enabling development mode
 from setuptools import setup, find_packages
-asfs
+
 setup(
     name="marketing_budget_optimizer",
     version="0.1.0",
     packages=find_packages(),
     install_requires=[
-        "numpy>=1.24.0",
+        "numpy>=1.24.0,<2.0.0",
+        "matplotlib>=3.7.0,<4.0.0",
+        "setuptools>=65.0.0",
     ],
     author="Stephen Bigelow",
     # author_email="your.email@example.com",

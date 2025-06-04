@@ -2,7 +2,7 @@ import numpy as np
 from typing import List, Dict, Optional, Protocol
 from .curves import ResponseCurve
 
-# This protocol was initially set up to be used with multiple optimization methods
+# This protocol was initially set up to be used with multiple optimization methods (e.g. simulated annealing for local refinement)
 # However, it is not currently used and may be removed in the future if only using GeneticAlgorithmOptimizer
 class OptimizationMethod(Protocol):
     """Protocol defining the interface for optimization methods."""
