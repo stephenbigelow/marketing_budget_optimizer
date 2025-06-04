@@ -48,6 +48,7 @@ class GompertzCurve(ResponseCurve):
         """
         return self.a * np.exp(-self.b * np.exp(-self.c * x))
 
+
 # class LogisticCurve(ResponseCurve):
 #     """Logistic (S-shaped) response curve implementation."""
     
@@ -104,57 +105,4 @@ class GompertzCurve(ResponseCurve):
 #         """
 #         return (self.V * x**self.n) / (self.K**self.n + x**self.n)
 
-# class MichaelisMentenCurve(ResponseCurve):
-#     """Michaelis-Menten response curve implementation."""
-    
-#     def __init__(self, V: float, K: float):
-#         """
-#         Initialize Michaelis-Menten curve with parameters.
-        
-#         Args:
-#             V: Maximum response
-#             K: Half-saturation constant
-#         """
-#         self.V = V
-#         self.K = K
-    
-#     def evaluate(self, x: np.ndarray) -> np.ndarray:
-#         """
-#         Evaluate the Michaelis-Menten curve at point(s) x.
-        
-#         Args:
-#             x: Input values
-            
-#         Returns:
-#             Response values
-#         """
-#         return (self.V * x) / (self.K + x)
-
-# class WeibullCurve(ResponseCurve):
-#     """Weibull response curve implementation."""
-    
-#     def __init__(self, a: float, b: float, c: float):
-#         """
-#         Initialize Weibull curve with parameters.
-        
-#         Args:
-#             a: Maximum value
-#             b: Scale parameter
-#             c: Shape parameter
-#         """
-#         self.a = a
-#         self.b = b
-#         self.c = c
-    
-#     def evaluate(self, x: np.ndarray) -> np.ndarray:
-#         """
-#         Evaluate the Weibull curve at point(s) x.
-        
-#         Args:
-#             x: Input values
-            
-#         Returns:
-#             Response values
-#         """
-#         return self.a * (1 - np.exp(-(x/self.b)**self.c))
         
