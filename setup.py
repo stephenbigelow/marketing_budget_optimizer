@@ -1,5 +1,6 @@
+# setuptools helps with creating distribution files, package discovery, dependency installation, and enabling development mode
 from setuptools import setup, find_packages
-
+asfs
 setup(
     name="marketing_budget_optimizer",
     version="0.1.0",
@@ -8,7 +9,7 @@ setup(
         "numpy>=1.24.0",
     ],
     author="Stephen Bigelow",
-    author_email="your.email@example.com",
+    # author_email="your.email@example.com",
     description="A Python package for optimizing marketing budgets using response curves",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
