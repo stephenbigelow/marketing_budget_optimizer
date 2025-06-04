@@ -2,32 +2,32 @@ import numpy as np
 from typing import List, Dict, Optional, Protocol
 from .curves import ResponseCurve
 
-# This protocol was initially set up to be used with multiple optimization methods (e.g. simulated annealing for local refinement)
-# However, it is not currently used and may be removed in the future if only using GeneticAlgorithmOptimizer
-class OptimizationMethod(Protocol):
-    """Protocol defining the interface for optimization methods."""
-    
-    def optimize(self, 
-                curves: List[ResponseCurve],
-                budget: float,
-                min_budgets: List[float],
-                max_budgets: List[float]) -> Dict[str, np.ndarray]:
-        """
-        Optimize budget allocation using the specific method.
-        
-        Args:
-            curves: List of response curves for each channel
-            budget: Total budget to allocate
-            min_budgets: Minimum budget for each channel
-            max_budgets: Maximum budget for each channel
-            
-        Returns:
-            Dictionary containing:
-            - 'allocation': Optimal budget allocation for each channel
-            - 'response': Expected response for each channel
-            - 'total_response': Total expected response
-        """
-        pass
+# Protocol class commented out as it's not currently being used
+# Originally intended to use as interface for multiple optimization methods (e.g. two stage GA global, then local refinement)
+# class OptimizationMethod(Protocol):
+#     """Protocol defining the interface for optimization methods."""
+#     
+#     def optimize(self, 
+#                 curves: List[ResponseCurve],
+#                 budget: float,
+#                 min_budgets: List[float],
+#                 max_budgets: List[float]) -> Dict[str, np.ndarray]:
+#         """
+#         Optimize budget allocation using the specific method.
+#         
+#         Args:
+#             curves: List of response curves for each channel
+#             budget: Total budget to allocate
+#             min_budgets: Minimum budget for each channel
+#             max_budgets: Maximum budget for each channel
+#             
+#         Returns:
+#             Dictionary containing:
+#             - 'allocation': Optimal budget allocation for each channel
+#             - 'response': Expected response for each channel
+#             - 'total_response': Total expected response
+#         """
+#         pass
 
 class GeneticAlgorithmOptimizer:
     """Genetic algorithm implementation for budget optimization."""
