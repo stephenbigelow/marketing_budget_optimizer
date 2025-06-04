@@ -20,25 +20,25 @@ class ResponseCurve(ABC):
         pass
 
 # A concrete class that inherits from the abstract class ResponseCurve
-class GompertzCurve(ResponseCurve):
-    """Gompertz response curve implementation."""
+class HillCurve(ResponseCurve):
+    """Hill function response curve implementation."""
     
-    def __init__(self, a: float, b: float, c: float):
+    def __init__(self, V: float, K: float, n: float):
         """
-        Initialize Gompertz curve with parameters.
+        Initialize Hill curve with parameters.
         
         Args:
-            a: Upper asymptote
-            b: Growth rate
-            c: Inflection point
+            V: Maximum response
+            K: Half-saturation point
+            n: Hill coefficient (steepness)
         """
-        self.a = a
-        self.b = b
-        self.c = c
+        self.V = V
+        self.K = K
+        self.n = n
     
     def evaluate(self, x: np.ndarray) -> np.ndarray:
         """
-        Evaluate the Gompertz curve at point(s) x.
+        Evaluate the Hill curve at point(s) x.
         
         Args:
             x: Input values
@@ -46,7 +46,7 @@ class GompertzCurve(ResponseCurve):
         Returns:
             Response values
         """
-        return self.a * np.exp(-self.b * np.exp(-self.c * x))
+        return (self.V * x**self.n) / (self.K**self.n + x**self.n)
 
 
 # class LogisticCurve(ResponseCurve):
@@ -77,25 +77,26 @@ class GompertzCurve(ResponseCurve):
 #         """
 #         return self.L / (1 + np.exp(-self.k * (x - self.x0)))
 
-# class HillCurve(ResponseCurve):
-#     """Hill function response curve implementation."""
+
+# class GompertzCurve(ResponseCurve):
+#     """Gompertz response curve implementation."""
     
-#     def __init__(self, V: float, K: float, n: float):
+#     def __init__(self, a: float, b: float, c: float):
 #         """
-#         Initialize Hill curve with parameters.
+#         Initialize Gompertz curve with parameters.
         
 #         Args:
-#             V: Maximum response
-#             K: Half-saturation point
-#             n: Hill coefficient (steepness)
+#             a: Upper asymptote
+#             b: Growth rate
+#             c: Inflection point
 #         """
-#         self.V = V
-#         self.K = K
-#         self.n = n
+#         self.a = a
+#         self.b = b
+#         self.c = c
     
 #     def evaluate(self, x: np.ndarray) -> np.ndarray:
 #         """
-#         Evaluate the Hill curve at point(s) x.
+#         Evaluate the Gompertz curve at point(s) x.
         
 #         Args:
 #             x: Input values
@@ -103,6 +104,5 @@ class GompertzCurve(ResponseCurve):
 #         Returns:
 #             Response values
 #         """
-#         return (self.V * x**self.n) / (self.K**self.n + x**self.n)
-
+#         return self.a * np.exp(-self.b * np.exp(-self.c * x))
         
