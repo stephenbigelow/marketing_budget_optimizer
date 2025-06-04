@@ -15,19 +15,24 @@ Install setuptools first:
 pip install setuptools
 ```
 
-### Option 1: Install from source
+### Installation Options
+
+#### Option 1: Install from source (Recommended for developers)
+This method is best if you plan to modify the code or contribute to the project. The `-e` flag creates an "editable" install, meaning changes to the source code are immediately reflected without needing to reinstall.
+
 1. Clone the repository:
 ```bash
 git clone https://github.com/yourusername/marketing_budget_optimizer.git
 cd marketing_budget_optimizer
 ```
 
-2. Install the package:
+2. Install the package in editable mode:
 ```bash
 pip install -e .
 ```
 
-### Option 2: Install directly from GitHub
+#### Option 2: Install directly from GitHub (Recommended for end users)
+This method is simpler and suitable if you just want to use the package without modifying it:
 ```bash
 pip install git+https://github.com/yourusername/marketing_budget_optimizer.git
 ```
