@@ -218,8 +218,30 @@ class GeneticAlgorithmOptimizer:
                 curves: List[ResponseCurve],
                 budget: float,
                 min_budgets: List[float],
-                max_budgets: List[float]) -> Dict[str, np.ndarray]:
-        """Optimize using genetic algorithm."""
+                max_budgets: List[float],
+                track_metrics: bool = False) -> Dict[str, np.ndarray]:
+        """
+        Optimize using genetic algorithm.
+        
+        Args:
+            curves: List of response curves for each channel
+            budget: Total budget to allocate
+            min_budgets: Minimum budget for each channel
+            max_budgets: Maximum budget for each channel
+            track_metrics: If True, returns additional convergence metrics
+            
+        Returns:
+            Dictionary containing:
+            - 'allocation': Optimal budget allocation for each channel
+            - 'response': Expected response for each channel
+            - 'total_response': Total expected response
+            - If track_metrics is True, also includes:
+              - 'best_fitness': Array of best fitness values per generation
+              - 'std_fitness': Array of fitness standard deviations per generation
+              - 'best_allocation': Array of best allocations per generation
+              - 'convergence_metrics': Dictionary with final_improvement, convergence_rate,
+                                     population_diversity, and best_fitness
+        """
         n_channels = len(curves)
         
         # Validate total budget against constraints
@@ -235,6 +257,12 @@ class GeneticAlgorithmOptimizer:
         best_solution = None
         best_fitness = float('-inf')
         
+        # Initialize metric tracking if requested
+        if track_metrics:
+            best_fitness_history = np.zeros(self.generations)
+            std_fitness_history = np.zeros(self.generations)
+            best_allocation_history = np.zeros((self.generations, n_channels))
+        
         for generation in range(self.generations):
             # Evaluate fitness
             fitness = np.array([self._evaluate_fitness(ind, curves, min_budgets, max_budgets) 
@@ -245,6 +273,12 @@ class GeneticAlgorithmOptimizer:
             if fitness[generation_best_idx] > best_fitness:
                 best_fitness = fitness[generation_best_idx]
                 best_solution = population[generation_best_idx].copy()
+            
+            # Track metrics if requested
+            if track_metrics:
+                best_fitness_history[generation] = best_fitness
+                std_fitness_history[generation] = np.std(fitness)
+                best_allocation_history[generation] = best_solution.copy()
             
             # Select parents
             parents = self._select_parents(population, fitness)
@@ -263,8 +297,29 @@ class GeneticAlgorithmOptimizer:
         channel_responses = np.array([curve.evaluate(best_solution[i]) 
                                     for i, curve in enumerate(curves)])
         
-        return {
+        result = {
             'allocation': best_solution,
             'response': channel_responses,
             'total_response': best_fitness
         }
+        
+        # Add convergence metrics if requested
+        if track_metrics:
+            # Calculate convergence metrics
+            final_improvement = best_fitness_history[-1] - best_fitness_history[0]
+            convergence_rate = (best_fitness_history[-1] - best_fitness_history[0]) / self.generations
+            population_diversity = np.mean(std_fitness_history[-5:])  # Average of last 5 generations
+            
+            result.update({
+                'best_fitness': best_fitness_history,
+                'std_fitness': std_fitness_history,
+                'best_allocation': best_allocation_history,
+                'convergence_metrics': {
+                    'final_improvement': final_improvement,
+                    'convergence_rate': convergence_rate,
+                    'population_diversity': population_diversity,
+                    'best_fitness': best_fitness_history[-1]
+                }
+            })
+        
+        return result
